@@ -14,7 +14,11 @@ getAllQuestions(db) {
     return db
       .from('drivia_questions')
       .select(
-        'id'
+        'id',
+        'question',
+        'answer',
+        'points',
+        'category',
       )
       .where({
           category: category, 
