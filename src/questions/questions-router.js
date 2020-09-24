@@ -16,14 +16,10 @@ QuestionsRouter
       .catch(next)
   })
   .post(jsonBodyParser, (req, res, next) => {
-      const { imgUrl, answer } = req.body
+      const { imgUrl } = req.body
       Tesseract.recognize(imgUrl)
       .then(result => {
-          const trimmedResult = result.toLowerCase().replace(/\s+/g, '')
-          if (trimmedResult == answer) {
-              res.send({ answer: correct })
-          }
-              res.send({ answer: incorrect })
+          res.json(result)
       })
       .catch(next) 
   })
