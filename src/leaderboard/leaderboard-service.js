@@ -12,7 +12,7 @@ const LeaderboardService = {
       .leftJoin(
         'drivia_users AS usr',
         'dl.user_id',
-        'usr.id'
+        'usr.id',
       )
       .groupBy('dl.id', 'usr.id')
       .orderBy('dl.score', 'desc')

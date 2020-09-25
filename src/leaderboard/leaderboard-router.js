@@ -18,8 +18,8 @@ leaderboardRouter
       .catch(next)
   })
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { user_id, score } = req.body
-    const newScore = { user_id, score }
+    const { score } = req.body
+    const newScore = { score }
 
     for (const [key, value] of Object.entries(newScore))
       if (value == null)
@@ -29,7 +29,7 @@ leaderboardRouter
 
     newScore.user_id = req.user.id
     
-    ReviewsService.postScore(
+    LeaderboardService.postScore(
       req.app.get('db'),
       newScore
     )
