@@ -40,6 +40,7 @@ leaderboardRouter
       .then(score => {
         res
           .status(201)
+          .location(path.posix.join(req.originalUrl, `/${score.id}`))
           .json(score)
       })
       .catch(next)
