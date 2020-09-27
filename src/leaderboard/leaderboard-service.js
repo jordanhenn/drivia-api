@@ -24,7 +24,7 @@ const LeaderboardService = {
       .insert(newScore)
       .into('drivia_leaderboard')
       .returning('*')
-      .then(([score]) => score)
+      .then(([score]) => console.log(score))
   }
 }
 
