@@ -19,12 +19,23 @@ const LeaderboardService = {
       .limit(10)
   },
 
+  getById(db, id) {
+    return db
+      .from('drivia_leaderboard AS dl')
+      .select('*')
+      .where('id', id)
+      .first()
+  },
+
   postScore(db, newScore) {
     return db
       .insert(newScore)
       .into('drivia_leaderboard')
       .returning('*')
-      .then(([score]) => console.log(score))
+      .then(([score]) => score)
+      .then(score =>
+        LeaderboardService.getbyId(db, score.id)
+      )
   }
 }
 
