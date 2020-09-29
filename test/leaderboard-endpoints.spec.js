@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Leaderboard Endpoints', function() {
+describe('Leaderboard Endpoints', function() {
   let db
 
   const {
@@ -35,15 +35,16 @@ describe.only('Leaderboard Endpoints', function() {
 
     it(`posts a score, responding with 201 and the created score`, function() {
       const testScore = 200
+      const testUser = testUsers[0]
       return supertest(app)
         .post('/api/leaderboard')
-        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .set('Authorization', helpers.makeAuthHeader(testUser))
         .send({ score: testScore })
         .expect(201)
         .expect(res => {
           expect(res.body).to.have.property('id')
-          expect(res.body.score).to.eql(testScore.score)
-          expect(res.body.user.id).to.eql(testUser.id)
+          expect(res.body.score).to.equal(testScore)
+          expect(res.body.user_id).to.eql(testUser.id)
           expect(res.headers.location).to.eql(`/api/leaderboard/${res.body.id}`)
           const expectedDate = new Date().toLocaleString()
           const actualDate = new Date(res.body.date_created).toLocaleString()

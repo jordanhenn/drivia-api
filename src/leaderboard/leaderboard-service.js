@@ -22,8 +22,20 @@ const LeaderboardService = {
   getById(db, id) {
     return db
       .from('drivia_leaderboard AS dl')
-      .select('*')
-      .where('id', id)
+      .select(
+        'dl.id',
+        'dl.date_created',
+        'dl.user_id',
+        'dl.score',
+        ...userFields,
+      )
+      .leftJoin(
+        'drivia_users AS usr',
+        'dl.user_id',
+        'usr.id',
+      )
+      .groupBy('dl.id', 'usr.id')
+      .where('dl.id', id)
       .first()
   },
 
@@ -34,9 +46,9 @@ const LeaderboardService = {
       .returning('*')
       .then(([score]) => score)
       .then(score =>
-        LeaderboardService.getbyId(db, score.id)
+        LeaderboardService.getById(db, score.id)
       )
-  }
+  },
 }
 
 const userFields = [

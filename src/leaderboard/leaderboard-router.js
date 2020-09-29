@@ -19,19 +19,15 @@ leaderboardRouter
   })
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { score } = req.body
-    const newScore = {
-      score: score
-    }
+    const newScore = { score }
 
     for (const [key, value] of Object.entries(newScore))
       if (value == null)
         return res.status(400).json({
           error: `Missing '${key}' in request body`
-        })
+    })
 
     newScore.user_id = req.user.id
-
-    console.log(newScore)
     
     LeaderboardService.postScore(
       req.app.get('db'),
